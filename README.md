@@ -1,5 +1,5 @@
 # web-server
-<<<<<<< HEAD
+
 
 > website server
 
@@ -26,9 +26,8 @@ npm run e2e
 
 # run all tests
 npm test
-```
+
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
-=======
+
 关于网站后台页面的搭建 使用element-ui 2.0
->>>>>>> 77ab1759feb8e1418eaa8720317cc090e961e714
