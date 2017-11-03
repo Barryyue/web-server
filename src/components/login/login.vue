@@ -12,11 +12,22 @@
 </template>
 
 <script>
+	import fecth from './../../utils/fecth.js'
 	export default {
 		data () {
 			return {
 				name: '',
 				password: ''
+			}
+		},
+		methods: {
+			login () {
+				var url = 'http://www.daiwei.org/vue/server/server.php?inAjax=1&do=checkMember'
+				fecth.get(url).then((res) => {
+					alert(JSON.stringify(res.data))
+				}, (err) => {
+					alert(err)
+				})
 			}
 		}
 	}
