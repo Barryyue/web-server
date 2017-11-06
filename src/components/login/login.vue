@@ -13,6 +13,7 @@
 
 <script>
 	import fecth from './../../utils/fecth.js'
+	import global from './../../common/js/global.js'
 	export default {
 		data () {
 			return {
@@ -24,11 +25,15 @@
 			login () {
 				var url = 'http://www.daiwei.org/vue/server/server.php?inAjax=1&do=checkMember'
 				fecth.post(url, {username: this.name, password: this.password}).then((res) => {
-					alert(JSON.stringify(res))
+					alert(JSON.stringify(res.data))
+					global.setCookie('login', JSON.stringify(res.data))
 				}, (err) => {
 					alert(err)
 				})
 			}
+		},
+		mounted () {
+			alert(global.getCookie('login'))
 		}
 	}
 </script>
