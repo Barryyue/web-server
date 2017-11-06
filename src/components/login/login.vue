@@ -5,8 +5,8 @@
 			<p class="login_tips">用户名</p>
 			<el-input class="input_info" v-model="name" placeholder="请输入内容"></el-input>
 			<p class="login_tips">密码</p>
-			<el-input class="input_info" v-model="input" type="password" placeholder="请输入内容"></el-input>
-			<el-button class="submit" type="info">信息按钮</el-button>
+			<el-input class="input_info" v-model="password" type="password" placeholder="请输入内容"></el-input>
+			<el-button class="submit" type="info" @click="login">信息按钮</el-button>
 		</div>
 	</div>
 </template>
@@ -23,8 +23,8 @@
 		methods: {
 			login () {
 				var url = 'http://www.daiwei.org/vue/server/server.php?inAjax=1&do=checkMember'
-				fecth.get(url).then((res) => {
-					alert(JSON.stringify(res.data))
+				fecth.post(url, {username: this.name, password: this.password}).then((res) => {
+					alert(JSON.stringify(res))
 				}, (err) => {
 					alert(err)
 				})
