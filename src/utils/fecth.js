@@ -1,6 +1,7 @@
 import axios from 'axios'
 import qs from 'qs'
-import store from './../store'
+import store from 'store'
+import global from 'common/js/global.js'
 // request拦截器
 axios.interceptors.request.use(
   config => {
@@ -10,6 +11,10 @@ axios.interceptors.request.use(
     type: 'set_ShowLoading',
     data: true
   })
+  if (!global.getCookie('login')) {
+    // 这里是页面跳转  跳转到登录页
+    // window.location.href = location.host + '/#/aaa'
+  }
   return config
 }, error => {
   // Do something with request error

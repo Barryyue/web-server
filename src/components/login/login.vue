@@ -3,17 +3,17 @@
 		<div class="fixed_bg" style="background:url('http://desk.fd.zol-img.com.cn/t_s1920x1080c5/g5/M00/0F/07/ChMkJlauy1SIMceRAAZ8Rh2A1FAAAH80wMVWFoABnxe831.jpg')"></div>
 		<div class="login-info">
 			<p class="login_tips">用户名</p>
-			<el-input class="input_info" v-model="name" placeholder="请输入内容"></el-input>
+			<el-input class="input_info" v-model="name" placeholder="请输入用户名"></el-input>
 			<p class="login_tips">密码</p>
-			<el-input class="input_info" v-model="password" type="password" placeholder="请输入内容"></el-input>
+			<el-input class="input_info" v-model="password" type="password" placeholder="请输入密码"></el-input>
 			<el-button class="submit" type="info" @click="login">信息按钮</el-button>
 		</div>
 	</div>
 </template>
 
 <script>
-	import fecth from './../../utils/fecth.js'
-	import global from './../../common/js/global.js'
+	import fecth from 'utils/fecth.js'
+	import global from 'common/js/global.js'
 	export default {
 		data () {
 			return {
@@ -23,17 +23,22 @@
 		},
 		methods: {
 			login () {
+				const _this = this
 				var url = 'http://www.daiwei.org/vue/server/server.php?inAjax=1&do=checkMember'
 				fecth.post(url, {username: this.name, password: this.password}).then((res) => {
-					alert(JSON.stringify(res.data))
-					global.setCookie('login', JSON.stringify(res.data))
+					if (res.data && res.data.status === '1') {
+						_this.$msg('登录成功')
+						global.setCookie('login', JSON.stringify(res.data))
+					} else {
+						_this.$msg('用户名或密码有误!')
+					}
 				}, (err) => {
 					alert(err)
 				})
 			}
 		},
 		mounted () {
-			alert(global.getCookie('login'))
+			console.log(global.getCookie('login'))
 		}
 	}
 </script>

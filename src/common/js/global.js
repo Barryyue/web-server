@@ -1,21 +1,53 @@
 const Global = {
-	// 设置 cookie  名字 值  过期时长  （不是过期的时间哦）
-	setCookie (name, value, t) {
-		const time = t || 60 * 60 * 3 * 1000  // 默认三个小时
-		const exp = new Date()
-		exp.setTime(exp.getTime + time)
-		document.cookie = name + '=' + escape(value) + ';expires=' + exp.toGMTString()
+	// name 为cookie的名字  value 为对应的值  exp 为过期时间  单位为毫秒
+	setCookie (name, value, exp) {
+		let newExp = exp || 60 * 60 * 2 * 1000   // 默认设置为2个小时的过期时间
+		let date = new Date()
+		console.log(date)
+		date.setTime(date.getTime() + newExp)
+		document.cookie = `${name}=${escape(value)};expires=${date.toGMTString()}`
 	},
-
-	// 获取cookie
 	getCookie (name) {
-		let ca = document.cookie.split(';')
-		for (let i = 0; i < ca.length; i++) {
-			let c = ca[i]
-			while (c.charAt(0) === ' ') c = c.substring(1)
-			if (c.indexOf(name) !== -1) return c.substring(name.length, c.length)
+		if (name) {
+			let reg = new RegExp(`(^| )${name}=([^;]*)(;|$)`)
+			let arr = document.cookie.match(reg)
+			if (arr) {
+				// return arr[2]
+				return arr[2]
+			} else {
+				return null
+			}
+		} else {
+			let getAllCookies = []
+			if (document.cookie !== '') {
+				let arrCookie = document.cookie.split('; ')
+				for (let k in arrCookie) {
+					getAllCookies.push({
+						name: `${unescape(arrCookie[k].split('=')[0])}`,
+						value: `${unescape(arrCookie[k].split('=')[1])}`
+					})
+				}
+				return getAllCookies
+			} else {
+				return null
+			}
 		}
-		return ''
+	},
+	deleteCookie (name) {
+		let date = new Date()
+		date.setTime(date.getTime() - 1)  // 设置过期了
+		if (name) {
+			let cookieInfo = Global.getCookie(name)
+			if (cookieInfo !== null) {
+				document.cookie = `${name}=${cookieInfo};expires=${date.toGMTString()}`
+			}
+		} else {
+			let getAllCookies = Global.getCookie()
+			for (let k in getAllCookies) {
+				document.cookie = `${getAllCookies[k].name}=${getAllCookies[k].value};expires=${date.toGMTString()}`
+			}
+		}
 	}
 }
+
 export default Global
